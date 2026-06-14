@@ -1,0 +1,28 @@
+{
+  "sql_injection": {
+    "javascript": {
+      "patterns": ["SELECT * FROM", "db.query", "mysql.query"],
+      "confidence": 0.9,
+      "ignored_false_positives": []
+    },
+    "python": {
+      "patterns": ["cursor.execute", "SELECT * FROM"],
+      "confidence": 0.85,
+      "ignored_false_positives": []
+    }
+  },
+  "idor": {
+    "javascript": {
+      "patterns": ["req.params.id", "ticketId"],
+      "confidence": 0.75,
+      "ignored_false_positives": []
+    }
+  },
+  "leak": {
+    "javascript": {
+      "patterns": ["process.env", "debug-logs"],
+      "confidence": 0.95,
+      "ignored_false_positives": []
+    }
+  }
+}

@@ -1,0 +1,25 @@
+[
+  {
+    "id": "1111111111111",
+    "email": "admin@security.local",
+    "password": "$2a$10$vI0p1p8qXQh8X0L99kO4vO16d8Fq5NgeL.LhV2wA5W8wA5W8wA5W8",
+    "role": "admin",
+    "isVerified": true
+  },
+  {
+    "id": "1781130132635",
+    "email": "alexia@security.local",
+    "password": "$2b$10$wy36doqohu0bC5.9XtzPyuaat.D5mwgTFHUM93XrRl1NHtihqND8a",
+    "role": "admin",
+    "isVerified": true,
+    "verificationToken": null
+  },
+  {
+    "id": "1781190453357",
+    "email": "lexi@security.local",
+    "password": "$2b$10$FgXDHUUH7XelOSnlKcOr9uNiKu.3mAxTqmIVLegLF.XLgkSJWy48q",
+    "role": "admin",
+    "isVerified": true,
+    "verificationToken": null
+  }
+]

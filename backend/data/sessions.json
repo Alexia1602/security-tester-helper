@@ -1,0 +1,124 @@
+[
+  {
+    "id": "session-1781194014893",
+    "name": "Audit IAST: vulnerable-victim-app",
+    "target_description": "Analiză structurală nativă executată asupra codului sursă local aflat în calea: C:\\Users\\alexi\\OneDrive\\Desktop\\vulnerable-victim-app",
+    "language": "javascript",
+    "code_source": "local_desktop",
+    "status": "completed",
+    "created_at": "2026-06-11T16:06:54.893Z",
+    "finished_at": "2026-06-11T16:48:26.901Z"
+  },
+  {
+    "id": "session-1781195654146",
+    "name": "Audit IAST: vulnerable-victim-app",
+    "target_description": "Analiză structurală nativă executată asupra codului sursă local aflat în calea: C:\\Users\\alexi\\OneDrive\\Desktop\\vulnerable-victim-app",
+    "language": "javascript",
+    "code_source": "local_desktop",
+    "status": "completed",
+    "created_at": "2026-06-11T16:34:14.146Z",
+    "finished_at": "2026-06-11T16:48:29.445Z"
+  },
+  {
+    "id": "session-1781205374243",
+    "name": "Audit IAST: it-ops-victim-app",
+    "target_description": "Analiză structurală nativă executată asupra codului sursă local aflat în calea: C:\\Users\\alexi\\it-ops-victim-app",
+    "language": "javascript",
+    "code_source": "local_desktop",
+    "status": "completed",
+    "created_at": "2026-06-11T19:16:14.243Z",
+    "finished_at": "2026-06-11T19:28:03.906Z"
+  },
+  {
+    "id": "session-1781218018761",
+    "name": "DemoMaster",
+    "target_description": "",
+    "language": "javascript",
+    "code_source": "human",
+    "status": "completed",
+    "created_at": "2026-06-11T22:46:58.761Z",
+    "code_snippet": "const query = \"SELECT * FROM users WHERE id = '\" + req.body.id + \"'\";\nconst ticket = \"/api/v1/tickets/\" + req.params.id;",
+    "finished_at": "2026-06-11T23:02:21.041Z"
+  },
+  {
+    "id": "session-1781218546572",
+    "name": "TestAlgoritmic",
+    "target_description": "",
+    "language": "javascript",
+    "code_source": "human",
+    "status": "completed",
+    "created_at": "2026-06-11T22:55:46.572Z",
+    "code_snippet": "// Telemetry Audit Target Node\nconst sqlQuery = \"SELECT * FROM users WHERE id = \" + req.params.id;\nconst invoiceId = req.body.invoiceId;\nconst debugMode = true;",
+    "finished_at": "2026-06-11T23:02:19.747Z"
+  },
+  {
+    "id": "session-1781219079658",
+    "name": "Test1",
+    "target_description": "",
+    "language": "python",
+    "code_source": "ai_chatgpt",
+    "status": "completed",
+    "created_at": "2026-06-11T23:04:39.658Z",
+    "code_snippet": "import pickle\nimport base64\nfrom flask import Flask, request\n\napp = Flask(__name__)\n\n@app.route(\"/api/v1/telemetry\", methods=[\"POST\"])\ndef load_telemetry():\n    # 🚨 CRITICAL: Arbitrary Code Execution via Unsafe Pickle Parsing (CWE-94)\n    serialized_data = request.json.get(\"data\")\n    \n    # Ingestion directă de fluxuri de octeți nesiguri\n    decoded_data = base64.b64decode(serialized_data)\n    user_state = pickle.loads(decoded_data) \n    \n    return {\"status\": \"parsed\"}",
+    "finished_at": "2026-06-12T08:54:59.304Z"
+  },
+  {
+    "id": "session-1781253796705",
+    "name": "Test 2",
+    "target_description": "",
+    "language": "javascript",
+    "code_source": "ai_chatgpt",
+    "status": "completed",
+    "created_at": "2026-06-12T08:43:16.706Z",
+    "code_snippet": "// ==========================================\n// TELEMETRY AUDIT TARGET NODE\n// TEST VECTOR FOR MULTI-STAGE CORRELATION\n// ==========================================\n\nfunction processUserData(req, res) {\n    const userId = req.body.id;\n    const ticketId = req.params.ticketId;\n    \n    // 🚨 TRIGGER 1: SQL Injection Pattern\n    // Serverul cauta \"SELECT * FROM\" sau \"sqlQuery\"\n    const sqlQuery = \"SELECT * FROM users WHERE id = '\" + userId + \"'\";\n    \n    // 🚨 TRIGGER 2: Insecure Direct Object Reference (IDOR)\n    // Serverul cauta \"ticketId\" sau \"req.params\" sau \"/tickets/:\"\n    const currentTicket = \"/api/v1/tickets/\" + ticketId;\n    \n    // 🚨 TRIGGER 3: Verbose Administrative Telemetry Log Leak\n    // Serverul cauta \"debugMode\" sau \"process_env\" sau \"debug-logs\"\n    if (process_env.debugMode === \"true\") {\n        console.log(\"INTERNAL_PATHS: System configuration execution parameters exposed.\");\n    }\n    \n    return { sqlQuery, currentTicket };\n}",
+    "finished_at": "2026-06-12T08:55:02.263Z"
+  },
+  {
+    "id": "session-1781296073716",
+    "name": "CodeTest",
+    "target_description": "",
+    "language": "javascript",
+    "code_source": "ai_chatgpt",
+    "status": "completed",
+    "created_at": "2026-06-12T20:27:53.717Z",
+    "code_snippet": "const express = require('express');\nconst { exec } = require('child_process');\nconst app = express();\n\napp.get('/api/v1/system/debug-logs', (req, res) => {\n    res.json({\n        process_id: process.pid,\n        env: process.env.NODE_ENV,\n        server_path: __dirname, // Leak de cale absolută\n        system_uptime: process.uptime()\n    });\n});\n\napp.get('/api/v1/tickets/:id', (req, res) => {\n    const { id } = req.params;\n    const ticket = database.tickets.find(t => t.id === id);\n    res.json(ticket);\n});\napp.post('/api/v1/system/ping', (req, res) => {\n    const { target } = req.body;\n    // Exploit: \"; rm -rf /\" sau \"; cat /etc/passwd\"\n    exec(`ping -c 3 ${target}`, (error, stdout) => {\n        res.send(stdout);\n    });\n});",
+    "finished_at": "2026-06-14T13:10:16.737Z"
+  },
+  {
+    "id": "session-1781451461788",
+    "name": "test 4",
+    "target_description": "",
+    "language": "javascript",
+    "code_source": "ai_chatgpt",
+    "status": "active",
+    "created_at": "2026-06-14T15:37:41.790Z",
+    "code_snippet": "const express = require('express');\nconst { exec } = require('child_process');\nconst app = express();\n\napp.get('/download', (req, res) => {\n    const filename = req.query.filename;\n    \n       exec(`cat /var/www/uploads/${filename}`, (error, stdout, stderr) => {\n        if (error) {\n            return res.status(500).send(\"Error reading file\");\n        }\n        res.send(stdout);\n    });\n});\n\napp.listen(3000);"
+  },
+  {
+    "id": "session-1781457156337",
+    "name": "IAST Audit Node: it-ops-victim-app",
+    "target_description": "Deep semantic data tracking instantiated inside local repository context path references: C:\\Users\\alexi\\it-ops-victim-app",
+    "language": "javascript",
+    "code_source": "local_desktop",
+    "status": "active",
+    "created_at": "2026-06-14T17:12:36.338Z"
+  },
+  {
+    "id": "session-1781461497063",
+    "name": "IAST Audit Node: it-ops-victim-app",
+    "target_description": "Deep semantic data tracking instantiated inside local repository context path references: C:\\Users\\alexi\\it-ops-victim-app",
+    "language": "javascript",
+    "code_source": "local_desktop",
+    "status": "active",
+    "created_at": "2026-06-14T18:24:57.063Z"
+  },
+  {
+    "id": "session-1781461536690",
+    "name": "IAST Audit Node: it-ops-victim-app",
+    "target_description": "Deep semantic data tracking instantiated inside local repository context path references: C:\\Users\\alexi\\it-ops-victim-app",
+    "language": "javascript",
+    "code_source": "local_desktop",
+    "status": "active",
+    "created_at": "2026-06-14T18:25:36.691Z"
+  }
+]
